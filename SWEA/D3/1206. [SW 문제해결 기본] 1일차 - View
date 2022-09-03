@@ -1,0 +1,53 @@
+import java.util.Scanner;
+
+public class Solution {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		// 테스트 케이스 개수
+		int T = 10;
+
+		for (int t = 1; t <= T; t++) {
+			// 가로 길이
+			int N = sc.nextInt();
+            //빌딩 높이 배열
+			int[] building = new int[N];
+			//결과 값
+			int result = 0;
+
+            //빌딩 높이 입력
+			for (int i = 0; i < N; i++) {
+				building[i] = sc.nextInt();
+			}
+			
+            //조망권 확인
+			for (int i = 2; i < N - 2; i++) {
+				int left = 0;
+				int right = 0;
+				// 왼쪽 2칸 비교하여 더 큰 값을 빼줌
+				if (building[i - 1] >= building[i - 2]) {
+					left = building[i] - building[i - 1];
+				} else {
+					left = building[i] - building[i - 2];
+				}
+				// 오른쪽 2칸 비교하여 더 큰 값을 빼줌
+				if (building[i + 1] >= building[i + 2]) {
+					right = building[i] - building[i + 1];
+				} else {
+					right = building[i] - building[i + 2];
+				}
+				
+				// 좌, 우 둘 다 양수이면 조망권 확보
+				if (left > 0 && right > 0) {
+                    //left 값이 더 클 시 right 값을 결과 값에 더해줌
+                    //(left(기준 건물 높이 - 왼쪽 건물 높이) 크면 왼쪽 건물이 오른쪽보다 더 낮음)
+					if(left>right) {
+						result += right;
+					}else {
+						result += left;
+					}
+				}
+			}
+			System.out.println("#"+t+" "+result);
+		}
+	}
+}

@@ -1,39 +1,36 @@
 import java.util.Scanner;
 
 public class Solution {
-	static int N;
-	static int[][] arr;
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		int T = sc.nextInt();
-		
-		for(int tc = 1; tc<=T;tc++) {
-			N = sc.nextInt();
-			arr = new int[N][N];
-			for(int i=0;i<N;i++) {
-				for(int j=0;j<N;j++) {
-					arr[i][j] = sc.nextInt();
+
+		for (int t = 1; t <= T; t++) {
+			int N = sc.nextInt();
+			int[][] iArr = new int[N][N];
+			for (int i = 0; i < N; i++) {
+				for (int j = 0; j < N; j++) {
+					iArr[i][j] = sc.nextInt();
 				}
 			}
-			StringBuilder sb = new StringBuilder();
-			for(int n =0;n<N;n++) {
-				for(int i=N-1;i>=0;i--) {
-					sb.append(arr[i][n]);
+			System.out.println("#"+t);
+			for (int num = 0; num < N; num++) {
+				for (int i = N - 1; i >= 0; i--) {
+					System.out.print(iArr[i][num]);
 				}
-				sb.append(" ");
-				for(int i=N-1;i>=0;i--) {
-					sb.append(arr[N-1-n][i]);
+				System.out.print(" ");
+				for (int i = N - 1; i >= 0; i--) {
+					int j = N - num - 1;
+					System.out.print(iArr[j][i]);
 				}
-				sb.append(" ");
-				for(int i=0;i<N;i++) {
-					sb.append(arr[i][N-1-n]);
+				System.out.print(" ");
+				for (int i = 0; i < N; i++) {
+					int j = N - num - 1;
+					System.out.print(iArr[i][j]);
 				}
-				sb.append("\n");
+				System.out.println();
 			}
-			sb.delete(sb.length()-1, sb.length());
-			System.out.println("#"+tc);
-			System.out.println(sb);
 		}
 	}
 }

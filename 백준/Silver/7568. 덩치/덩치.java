@@ -10,7 +10,7 @@ public class Main {
 		// 사람 수 입력
 		int N = Integer.parseInt(br.readLine());
 		// 몸무게, 키를 담을 배열 선언
-		int[][] person = new int[N][N];
+		int[][] person = new int[N][2];
 		// 등수를 나타낼 배열 선언
 		int[] rank = new int[N];
 		// rank배열의 초기값을 1로 세팅

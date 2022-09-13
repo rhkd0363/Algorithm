@@ -9,6 +9,7 @@ public class Main {
 	static ArrayList<Integer> stack = new ArrayList<>();
 	// 스택의 top 선언
 	static int top = -1;
+	static StringBuilder SB = new StringBuilder();
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		// 명령의 수 입력
@@ -23,19 +24,23 @@ public class Main {
 				break;
 			case "top":
 				top();
+				SB.append('\n');
 				break;
 			case "size":
 				size();
+				SB.append('\n');
 				break;
 			case "empty":
 				empty();
+				SB.append('\n');
 				break;
 			case "pop":
 				pop();
+				SB.append('\n');
 				break;
 			}
 		}
-		
+		System.out.print(SB);
 	}
 	
 	static void push(int X) {
@@ -44,28 +49,28 @@ public class Main {
 	
 	static void pop() {
 		if(top == -1) {
-			System.out.println(-1);
+			SB.append(-1);
 			return;
 		}
-		System.out.println(stack.remove(top--));
+		SB.append(stack.remove(top--));
 	}
 	
 	static void size() {
-		System.out.println(top+1);
+		SB.append(top+1);
 	}
 	
 	static void empty() {
 		if(top == -1)
-			System.out.println(1);
+			SB.append(1);
 		else
-			System.out.println(0);
+			SB.append(0);
 	}
 	
 	static void top() {
 		if(top == -1) {
-			System.out.println(-1);
+			SB.append(-1);
 			return;
 		}
-		System.out.println(stack.get(top));
+		SB.append(stack.get(top));
 	}
 }

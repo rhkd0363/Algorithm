@@ -4,38 +4,42 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int[] arr;
+	static StringBuilder SB = new StringBuilder();
+	static int N, M;
 	static boolean[] check;
+	static int[] nums;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
 		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-
-		arr = new int[M];
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 		check = new boolean[N];
+		nums = new int[M];
 
-		dfs(N, M, 0);
+		perm(0, 0);
+
+		System.out.println(SB);
 	}
 
-	static void dfs(int N, int M, int depth) {
-		if (depth == M) {
+	static void perm(int idx, int sidx) {
+		if (sidx == M) {
 			for (int i = 0; i < M; i++) {
-				System.out.print(arr[i] + " ");
+				SB.append(nums[i]).append(' ');
 			}
-			System.out.println();
+			SB.append('\n');
 			return;
 		}
 
 		for (int i = 0; i < N; i++) {
 			if (!check[i]) {
 				check[i] = true;
-				arr[depth] = i + 1;
-				dfs(N, M, depth + 1);
+				nums[sidx] = i+1;
+				perm(i + 1, sidx + 1);
 				check[i] = false;
 			}
 		}
+
 	}
 }

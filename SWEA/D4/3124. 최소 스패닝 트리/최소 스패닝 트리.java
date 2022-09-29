@@ -1,13 +1,27 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 
-//크루스칼 병합정렬
+//크루스칼
 public class Solution {
 	static int[] p;
-	static int[][] sortedArr;
 	
+	static class Node{
+		int start;
+		int end;
+		int weight;
+		public Node(int start, int end, int weight) {
+			super();
+			this.start = start;
+			this.end = end;
+			this.weight = weight;
+		}
+	}
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
@@ -19,7 +33,8 @@ public class Solution {
 			int V = Integer.parseInt(st.nextToken());
 			int E = Integer.parseInt(st.nextToken());
 			
-			int[][] edges = new int[E][3];
+			List<Node> edges = new ArrayList<>();
+			
 			// 간선 정보
 			for(int i=0;i<E;i++) {
 				st = new StringTokenizer(br.readLine());
@@ -27,14 +42,16 @@ public class Solution {
 				int end = Integer.parseInt(st.nextToken());
 				int weight = Integer.parseInt(st.nextToken());
 				
-				edges[i][0] = start;
-				edges[i][1] = end;
-				edges[i][2] = weight;
+				edges.add(new Node(start, end, weight));
 			}
 			
-			// 가중치 기준 정렬(병합 정렬)
-			sortedArr = new int[E][3];
-			mergeSort(edges,0,edges.length-1);
+			// 가중치 기준 정렬
+			Collections.sort(edges, new Comparator<Node>() {
+				@Override
+				public int compare(Node o1, Node o2) {
+					return o1.weight - o2.weight;
+				}
+			});
 			
 			// 대표자 배열
 			p = new int[V+1];
@@ -48,9 +65,9 @@ public class Solution {
 			long ans = 0, pick = 0;
 			
 			for(int i=0;i<E;i++) {
-				int px = findSet(edges[i][0]);
-				int py = findSet(edges[i][1]);
-				int weight = edges[i][2];
+				int px = findSet(edges.get(i).start);
+				int py = findSet(edges.get(i).end);
+				int weight = edges.get(i).weight;
 				
 				// 서로 대표가 다르면 합친다.
 				if(px != py) {
@@ -66,55 +83,6 @@ public class Solution {
 			sb.append('#').append(t).append(' ').append(ans).append('\n');
 		}
 		System.out.println(sb);
-	}
-	
-	private static void mergeSort(int[][] arr, int left, int right) {
-		if (left < right) {
-			int mid = (left + right) / 2;
-			// 왼쪽 절반 분할
-			mergeSort(arr, left, mid);
-			// 오른쪽 절반 분할
-			mergeSort(arr, mid + 1, right);
-			// 분할된 집합 병합
-			merge(arr, left, mid, right);
-
-		}
-	}
-
-	static void merge(int[][] arr, int left, int mid, int right) {
-		// 왼쪽 시작지점, 오른쪽 시작지점
-		int L = left, R = mid + 1;
-		// 정렬된 원소 저장할 위치
-		int idx = left;
-
-		// 합쳐지는 두 부분집합 중 어느 한 쪽이 끝까지 도달할 때까지 진행
-		while (L <= mid && R <= right) {
-			// 양쪽 부분집합의 값들을 비교하며 sortedArr에 값을 넣어줌
-			// 조건에 등호를 넣냐 빼냐에 따라 안정정렬인지 불완전정렬인지 정해진다.
-			if (arr[L][2] <= arr[R][2])
-				// 값들을 넣고 증가시킨다.
-				sortedArr[idx++] = arr[L++];
-			else
-				sortedArr[idx++] = arr[R++];
-		}
-		// 왼쪽이 안끝났다면
-		if (L <= mid) {
-			for (int i = L; i <= mid; i++) {
-				sortedArr[idx++] = arr[i];
-			}
-		}
-		// 오른쪽이 안끝났다면
-		else {
-			for (int j = R; j <= right; j++) {
-				sortedArr[idx++] = arr[j];
-			}
-		}
-
-		// 원본배열에 sortedArr을 덮어씌우겠다.
-		for (int i = left; i <= right; i++) {
-			arr[i] = sortedArr[i];
-		}
-
 	}
 	
 	static void union(int x,int y) {

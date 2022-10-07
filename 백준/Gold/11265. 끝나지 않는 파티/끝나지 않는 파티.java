@@ -1,10 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 // 파티장 별 각 최단경로(다익스트라 알고리즘)
@@ -30,7 +26,7 @@ public class Main {
 		public String toString() {
 			return "Node [end=" + end + ", time=" + time + "]";
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -43,56 +39,26 @@ public class Main {
 		int N = Integer.parseInt(st.nextToken()); // 파티장 크기(수)
 		int M = Integer.parseInt(st.nextToken()); // 손님의 수
 
-		List<Node>[] adjList = new ArrayList[N + 1]; // 파티장 간 직접 이동 소요 시간 인접리스트
-
-		for (int i = 1; i < N + 1; i++) {
-			adjList[i] = new ArrayList<>();
-		}
+		int[][] time = new int[N + 1][N + 1];
 
 		for (int i = 1; i < N + 1; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 1; j < N + 1; j++) {
-				if (i == j) {
-					st.nextToken();
-					continue;
-				}
-				adjList[i].add(new Node(j, Integer.parseInt(st.nextToken())));
+				time[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 
-		int[][] time = new int[N + 1][N + 1];
-		for (int i = 1; i < N + 1; i++) {
-			Arrays.fill(time[i], INF);
-		}
-
-		// 다익스트라
-		for (int i = 1; i < N + 1; i++) {
-			boolean[] visited = new boolean[N + 1]; // 방문처리 용도
-
-			PriorityQueue<Node> pq = new PriorityQueue<>();
-			pq.add(new Node(i, 0));
-			time[i][i] = 0;
-
-			while (!pq.isEmpty()) {
-				Node curr = pq.poll();
-
-				if (visited[curr.end])
+		for (int i = 1; i < N + 1; i++) // 경유 지점
+			for (int j = 1; j < N + 1; j++) { // 출발 지점
+				if (i == j)
 					continue;
-
-				visited[curr.end] = true;
-
-				for (Node node : adjList[curr.end]) {
-					if(!visited[node.end] && time[i][node.end] > time[i][curr.end]+ node.time) {
-						time[i][node.end] = time[i][curr.end]+node.time;
-						
-						pq.add(new Node(node.end, time[i][node.end]));
-					}
+				for (int k = 0; k < N + 1; k++) { // 도착 지점
+					if (i == k || j == k)
+						continue;
+					time[j][k] = Math.min(time[j][i] + time[i][k], time[j][k]);
 				}
-
 			}
-		} // 모든 경우의 최단경로를 구함.
 
-		
 		for (int i = 0; i < M; i++) {
 			st = new StringTokenizer(br.readLine());
 
@@ -100,13 +66,13 @@ public class Main {
 			int B = Integer.parseInt(st.nextToken()); // 다음 파티가 열리는 파티장 번호
 			int C = Integer.parseInt(st.nextToken()); // 지금으로부터 다음 파티가 열리는데 걸리는 시간
 
-			if(time[A][B] <= C) { // 가는데 걸리는 시간이 파티가 열리는데 걸리는 시간보다 작거나 같다면
+			if (time[A][B] <= C) { // 가는데 걸리는 시간이 파티가 열리는데 걸리는 시간보다 작거나 같다면
 				sb.append("Enjoy other party").append('\n');
 				continue;
 			}
 			sb.append("Stay here").append('\n');
 		}
-		
+
 		System.out.println(sb);
 
 	}

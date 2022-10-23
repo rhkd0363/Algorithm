@@ -3,100 +3,72 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int V, E;
-	static int[] p;
-	static int[] dist;
-	static boolean[] visited;
-	static List<Node>[] adjList;
-
-	static class Node implements Comparable<Node> {
-		int str;
-		int w;
-
-		public Node(int str, int w) {
-			super();
-			this.str = str;
-			this.w = w;
-		}
-
-		@Override
-		public int compareTo(Node o) {
-			return this.w - o.w;
-		}
-
-		@Override
-		public String toString() {
-			return "Node [str=" + str + ", w=" + w + "]";
-		}
-
-	}
-
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-
-		// N, M 입력
-		st = new StringTokenizer(br.readLine());
-		V = Integer.parseInt(st.nextToken());
-		E = Integer.parseInt(st.nextToken());
-
-		p = new int[V + 1];
-		dist = new int[V + 1];
-		visited = new boolean[V + 1];
-		adjList = new ArrayList[V + 1];
-
-		for (int i = 0; i < V + 1; i++) {
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int V = Integer.parseInt(st.nextToken());
+		int E = Integer.parseInt(st.nextToken());
+		
+		List<int[]>[] adjList = new ArrayList[V+1];
+		
+		for(int i=1;i<V+1;i++)
 			adjList[i] = new ArrayList<>();
-		}
-
-		Arrays.fill(dist, Integer.MAX_VALUE);
-
-		for (int i = 0; i < E; i++) {
+		
+		for(int i=0;i<E;i++) {
 			st = new StringTokenizer(br.readLine());
-			int str = Integer.parseInt(st.nextToken());
+			int start = Integer.parseInt(st.nextToken());
 			int end = Integer.parseInt(st.nextToken());
-			int w = Integer.parseInt(st.nextToken());
-
-			// 방향 그래프
-			adjList[str].add(new Node(end, w));
-			adjList[end].add(new Node(str, w));
+			int weight = Integer.parseInt(st.nextToken());
+			
+			adjList[start].add(new int[] {end,weight});
+			adjList[end].add(new int[] {start,weight});
 		}
+		
+		int[] dist = new int[V+1];
+		Arrays.fill(dist, Integer.MAX_VALUE);
+		boolean[] check = new boolean[V+1];
+		
+		
+		PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
 
-		// 첫번째 초기화
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				// TODO Auto-generated method stub
+				return o1[1] - o2[1];
+			}
+			
+		});
+		pq.add(new int[] {1,0});
 		dist[1] = 0;
-
-		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.add(new Node(1, 0));
-
-		while (!pq.isEmpty()) {
-
-			Node curr = pq.poll();
-
-			if (visited[curr.str])
+		
+		while(!pq.isEmpty()) {
+			int[] curr = pq.poll();
+			
+			if(check[curr[0]])
 				continue;
-
-			visited[curr.str] = true;
-
-			for (Node node : adjList[curr.str]) {
-				if (!visited[node.str] && dist[node.str] > node.w) {
-					dist[node.str] = node.w;
-
-					pq.add(new Node(node.str, dist[node.str]));
+			
+			check[curr[0]] = true;
+			
+			for(int[] pos : adjList[curr[0]]) {
+				if(!check[pos[0]] && dist[pos[0]] > pos[1]) {
+					dist[pos[0]] = pos[1];
+					pq.add(new int[] {pos[0],dist[pos[0]]});
 				}
 			}
 		}
-
+		
 		int ans = 0;
-		for (int i = 1; i < V + 1; i++) {
+		
+		for(int i=1;i<V+1;i++)
 			ans += dist[i];
-		}
-
+		
 		System.out.println(ans);
-
 	}
 }

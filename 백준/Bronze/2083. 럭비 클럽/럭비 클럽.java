@@ -12,7 +12,7 @@ public class Main {
 		int age = Integer.parseInt(st.nextToken());
 		int weight = Integer.parseInt(st.nextToken());
 		
-		while(name != "Joe" && age != 0 && weight != 0) {
+		while(name != "#" && age != 0 && weight != 0) {
 			if(age > 17 || weight >= 80) {
 				System.out.println(name+" Senior");
 			}else {

@@ -6,18 +6,22 @@ import java.util.StringTokenizer;
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
 		int N = Integer.parseInt(st.nextToken());
 		int M = Integer.parseInt(st.nextToken());
 
-		int map[][] = new int[N+1][N+1];
+		int map[] = new int[N * N + 1];
+
+		int sum = 0;
+		int idx = 1;
 
 		for (int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 1; j <= N; j++) {
-				map[i][j] = map[i][j-1] + Integer.parseInt(st.nextToken());
+				sum += Integer.parseInt(st.nextToken());
+				map[idx++] = sum;
 			}
 		}
 
@@ -31,11 +35,11 @@ public class Main {
 			int result = 0;
 
 			for (int j = x_1; j <= x_2; j++) {
-				result += map[j][y_2] - map[j][y_1-1];
+				result += map[N * (j - 1) + y_2] - map[N * (j - 1) + y_1 - 1];
 			}
 
 			sb.append(result).append('\n');
 		}
-		System.out.println(sb);
+        System.out.println(sb);
 	}
 }

@@ -7,6 +7,7 @@ class Solution {
                  
                  if(row * 2 + column * 2 + 4 == brown){
                      answer =  new int[]{row+2,column+2};
+                     break;
                  }
              }
          }

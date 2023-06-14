@@ -8,13 +8,10 @@ class Solution {
     static HashSet<Integer> list;
     
     public int solution(String numbers) {
-        answer = 0;
-        
-        numberList = numbers;
-        
-        visited = new boolean[numberList.length()];
-        
+        visited = new boolean[numbers.length()];
         list = new HashSet<>();
+        numberList = numbers;
+        answer = 0;
         
         for(int i=0;i<numberList.length();i++)
             DFS(0,i);
@@ -27,26 +24,20 @@ class Solution {
             return;
         
         visited[idx] = true;
-        
         number += numberList.charAt(idx) - '0';
-        
-        getPrime(number);
-        
+        if(number >= 2)
+            getPrime(number);
         for(int i=0;i<numberList.length();i++){
             DFS(number*10, i);  
         }
-        
         visited[idx] = false;
     }
     
     static void getPrime(int number){
-        if(number < 2) return;
-        
         for(int i=2; i<= Math.sqrt(number); i++){
             if(number % i == 0)
                 return;
-        }
-        
+        }    
         list.add(number);
     }   
 }

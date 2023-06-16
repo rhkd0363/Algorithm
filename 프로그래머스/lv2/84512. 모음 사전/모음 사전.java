@@ -1,9 +1,11 @@
 class Solution {
     static int answer;
     static String answerWord;
+    static char[] vowels = {'A','E','I','O','U'};
     
     public int solution(String word) {
         answer = 0;
+        
         answerWord = word;
         
         DFS(0, "");
@@ -22,28 +24,9 @@ class Solution {
         
         
         for(int i=0;i<5;i++){
-            switch (i){
-                case 0:
-                    if(DFS(idx+1, word+"A"))
-                        return true;
-                    break;
-                case 1:
-                    if(DFS(idx+1, word+"E"))
-                        return true;
-                    break;
-                case 2:
-                    if(DFS(idx+1, word+"I"))
-                        return true;
-                    break;
-                case 3:
-                    if(DFS(idx+1, word+"O"))
-                        return true;
-                    break;
-                case 4:
-                    if(DFS(idx+1, word+"U"))
-                        return true;
-                    break;
-            }
+           if(DFS(idx+1, word+vowels[i])){
+               return true;
+           }
         }
         
         return false;

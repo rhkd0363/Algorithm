@@ -3,12 +3,10 @@ import java.util.*;
 
 public class Main {
 	static class Node implements Comparable<Node> {
-		int start;
 		int end;
 		int weight;
 
-		public Node(int start, int end, int weight) {
-			this.start = start;
+		public Node(int end, int weight) {
 			this.end = end;
 			this.weight = weight;
 		}
@@ -38,15 +36,11 @@ public class Main {
 			int end = Integer.parseInt(st.nextToken());
 			int weight = Integer.parseInt(st.nextToken());
 
-			adjList[start].add(new Node(start, end, weight));
-			adjList[end].add(new Node(end, start, weight));
+			adjList[start].add(new Node(end, weight));
+			adjList[end].add(new Node(start, weight));
 		}
 
 		boolean[] visited = new boolean[N + 1];
-		int[] cost = new int[N + 1];
-		int[] parent = new int[N + 1];
-		
-		Arrays.fill(cost, Integer.MAX_VALUE);
 		
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 		
@@ -54,7 +48,7 @@ public class Main {
 		
 		visited[1] = true;
 		
-		cost[1] = 0;
+		int ans = 0;
 		
 		while(!pq.isEmpty()) {
 			Node curr = pq.poll();
@@ -63,14 +57,10 @@ public class Main {
 				continue;
 			
 			visited[curr.end] = true;
-			cost[curr.end] = curr.weight;
+			ans += curr.weight;
+			
 			pq.addAll(adjList[curr.end]);
 		}
-		
-		int ans = 0;
-		
-		for(int i=1;i<cost.length;i++)
-			ans += cost[i];
 
 		System.out.println(ans);
 	}

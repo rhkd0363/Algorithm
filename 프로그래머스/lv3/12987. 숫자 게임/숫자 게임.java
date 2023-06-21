@@ -12,7 +12,7 @@ class Solution {
         int answer = 0;
         
         while(true){
-            if(posA == -1 || posB == -1){
+            if(posA == -1){
                 break;
             }
             

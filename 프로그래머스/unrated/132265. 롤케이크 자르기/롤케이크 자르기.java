@@ -8,13 +8,13 @@ class Solution {
         int[] countL = new int[10001];
         int[] countR = new int[10001];
         
-        Set<Integer> setL = new HashSet<>();
-        Set<Integer> setR = new HashSet<>();
+        int left = 0;
+        int right = 0;
 
         for(int j=0;j<topping.length;j++){
             countR[topping[j]]++;
             if(countR[topping[j]] == 1)
-                setR.add(topping[j]);
+                right++;
         }
         
         for(int i=0;i<topping.length;i++){
@@ -22,15 +22,15 @@ class Solution {
             countR[topping[i]]--;
             
             if(countL[topping[i]] == 1)
-                setL.add(topping[i]);
+                left++;
             
             if(countR[topping[i]] == 0)
-                setR.remove(topping[i]);
+                right--;
             
-            if(setL.size() > setR.size())
+            if(left > right)
                 break;
             
-            if(setL.size() == setR.size())
+            if(left == right)
                 answer++;
         }
                 

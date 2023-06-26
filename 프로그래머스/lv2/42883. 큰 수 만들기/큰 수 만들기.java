@@ -2,25 +2,29 @@ import java.util.*;
 
 class Solution {
     public String solution(String number, int k) {
-        Stack<Character> stack = new Stack<>();
-        int length = number.length() - k;
+        int length = number.length() - k; 
+        int pos = -1;
         
-        for(int i=0;i<number.length();i++){
-            while(!stack.isEmpty() && number.charAt(i) > stack.peek() && k-- > 0){
-                stack.pop();
+        char[] answer = new char[length];
+
+        while(true){
+            if(length == 0)
+                break;
+
+
+            for(int i=9;i>=0;i--){
+                String substr = number.substring(pos+1, number.length()-length+1);
+                int idx = substr.indexOf(""+i);
+                if(idx != -1){
+                    pos += idx+1; 
+                    answer[answer.length - length] = substr.charAt(idx);
+                    break;
+                }
             }
 
-            stack.push(number.charAt(i));
+            length--;
         }
-        
-        String answer = "";
-        
-        int size = stack.size();
-        
-        for(int i=0;i<length;i++){
-            answer += stack.get(i);
-        }
-        
-        return answer;
+
+        return new String(answer);
     }
 }

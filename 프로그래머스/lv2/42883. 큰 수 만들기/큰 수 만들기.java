@@ -3,15 +3,12 @@ import java.util.*;
 class Solution {
     public String solution(String number, int k) {
         int length = number.length() - k; 
-        
         int pos = -1;
-        
         String answer = "";
         
         while(true){
             if(length == 0)
                 break;
-            
             
             for(int i=9;i>=0;i--){
                 String substr = number.substring(pos+1, number.length()-length+1);
@@ -22,12 +19,8 @@ class Solution {
                     break;
                 }
             }
-            
-            
-            // answer += numbers[length];
             length--;
         }
-        
         return answer;
     }
 }

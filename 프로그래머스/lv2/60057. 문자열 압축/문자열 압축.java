@@ -3,27 +3,44 @@ class Solution {
         int answer = s.length();
         
         for(int i=1;i<=s.length()/2;i++){
-        // for(int i=1;i<2;i++){
-            int length = s.length();
-            int count = 1;
-            for(int j=i;j<=s.length() - i; j+=i){
-                String prev = s.substring(j-i,j);
-                String curr = s.substring(j,j+i);
-                
-                if(prev.equals(curr)){
-                    count++;
-                    length -= i;
-                }else{
-                    if(count != 1)
-                        length += count/1000 >= 1 ? 4 : count/100 >= 1 ? 3 : count/10 >= 1? 2 : 1;
-                    count = 1;
-                }
-            }
-           if(count != 1)
-                length += count/1000 >= 1 ? 4 : count/100 >= 1 ? 3 : count/10 >= 1? 2 : 1;
+            int length = checkString(i, s.length(), s); 
             answer = Math.min(answer, length);
         }
         
         return answer;
+    }
+    
+    static int checkString(int num, int length, String str){
+        int count = 1;
+        int result = 0;
+        
+        for(int i = num;i<=length - num; i+=num){
+                String prev = str.substring(i-num,i);
+                String curr = str.substring(i,i+num);
+                
+                if(prev.equals(curr)){
+                    count++;
+                }else{
+                    if(count != 1)
+                        result += calcDigit(count);
+                    count = 1;
+                    result += num;
+                }
+            }
+        
+       if(count != 1)
+            result += calcDigit(count);
+        
+        result += num + (length % num);
+      
+        return result;
+    }
+    
+    static int calcDigit(int number){
+        for(int i = 3; i >= 0; i--){
+            if(number / Math.pow(10, i) >= 1)
+                return i+1;
+        }
+        return 0;
     }
 }

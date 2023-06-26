@@ -1,30 +1,19 @@
-import java.util.*;
-
+import java.util.Stack;
 class Solution {
     public String solution(String number, int k) {
+        char[] result = new char[number.length() - k];
         Stack<Character> stack = new Stack<>();
-        
-        for(int i=0;i<number.length();i++){
-            while(!stack.isEmpty()){
-                if(number.charAt(i) <= stack.peek() || k <= 0 ){
-                    break;
-                }
-                
-                k--;
+
+        for (int i=0; i<number.length(); i++) {
+            char c = number.charAt(i);
+            while (!stack.isEmpty() && stack.peek() < c && k-- > 0) {
                 stack.pop();
             }
-
-            stack.push(number.charAt(i));
+            stack.push(c);
         }
-        
-        String answer = "";
-        
-        int size = stack.size() - k;
-        
-        for(int i=0;i<size;i++){
-            answer += stack.get(i);
+        for (int i=0; i<result.length; i++) {
+            result[i] = stack.get(i);
         }
-        
-        return answer;
+        return new String(result);
     }
 }

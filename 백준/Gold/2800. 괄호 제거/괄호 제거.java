@@ -22,17 +22,13 @@ public class Main {
 			}
 		}
 		
-		result = new HashSet<>();
+		result = new TreeSet<>();
 		
 		DFS(0,0,input.toCharArray());
 		
 		StringBuilder sb = new StringBuilder();
 		
-		List<String> answer = new ArrayList<>(result);
-		
-				Collections.sort(answer);
-		
-		for(String str : answer)
+		for(String str : result)
 			sb.append(str).append('\n');
 		
 		System.out.println(sb);

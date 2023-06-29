@@ -1,3 +1,3 @@
 function solution(absolutes, signs) {
-    return absolutes.reduce((acc,curr,idx) => acc += signs[idx] ? curr : -curr, 0)
+    return absolutes.reduce((acc,curr,idx) => acc + (signs[idx] ? curr : -curr), 0)
 }

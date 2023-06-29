@@ -1,3 +1,3 @@
 function solution(n) {
-    return [...(n+"")].reverse().map((char) => parseInt(char))
+    return (n+"").split('').reverse().map((char) => parseInt(char))
 }

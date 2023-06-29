@@ -1,11 +1,11 @@
 function solution(x) {
-    let num = 0;
-    let ans = x;
+    let sum = 0;
+    let num = x;
     
     while(x > 0){
-        num += x % 10;
+        sum += x % 10;
         x = parseInt(x/10);
     }
     
-    return ans % num === 0 ? true : false;
+    return num % sum === 0 ? true : false;
 }

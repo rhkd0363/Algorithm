@@ -45,25 +45,49 @@ public class Main {
 
         int mid = (start + end) / 2;
         List<Integer> left = setTree(node * 2, start, mid);
-        Tree[node].addAll(left);
         List<Integer> right = setTree(node * 2 + 1, mid + 1, end);
-        Tree[node].addAll(right);
 
-        Collections.sort(Tree[node]);
+        int leftP = 0;
+        int rightP = 0;
+
+        while (leftP < left.size() && rightP < right.size()) {
+            if (left.get(leftP) <= right.get(rightP)) {
+                Tree[node].add(left.get(leftP));
+                leftP++;
+            } else {
+                Tree[node].add(right.get(rightP));
+                rightP++;
+            }
+        }
+
+        if (leftP == left.size()) {
+            while (rightP < right.size()) {
+                Tree[node].add(right.get(rightP));
+                rightP++;
+            }
+        }
+
+        if (rightP == right.size()) {
+            while (leftP < left.size()) {
+                Tree[node].add(left.get(leftP));
+                leftP++;
+            }
+        }
+
         return Tree[node];
     }
 
     static int getResult(int node, int start, int end, int k, int range_s, int range_e) {
-        if(range_e < start || range_s > end)
+        if (range_e < start || range_s > end)
             return 0;
 
-        if(range_s <= start && end <= range_e){
+        if (range_s <= start && end <= range_e) {
             return Tree[node].size() - 1 - binarySearch(Tree[node], k);
         }
 
-        int mid = (start+ end) / 2;
+        int mid = (start + end) / 2;
 
-        return getResult(node * 2, start, mid , k ,range_s, range_e) + getResult(node * 2 + 1, mid + 1, end , k ,range_s, range_e);
+        return getResult(node * 2, start, mid, k, range_s, range_e) + getResult(node * 2 + 1, mid + 1, end, k, range_s, range_e);
     }
 
     static int binarySearch(List<Integer> list, int k) {
@@ -73,7 +97,7 @@ public class Main {
 
         while (true) {
             if (start > end) {
-                if(list.get(mid) > k){
+                if (list.get(mid) > k) {
                     mid--;
                 }
                 break;

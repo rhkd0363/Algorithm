@@ -95,27 +95,15 @@ public class Main {
         int end = list.size() - 1;
         int mid = (start + end) / 2;
 
-        while (true) {
-            if (start > end) {
-                if (list.get(mid) > k) {
-                    mid--;
-                }
-                break;
-            }
-            //만약 찾는 값이 중앙 값보다 작다면 왼쪽을 검색
+        while (start <= end) {
+            mid = (start + end) / 2;
             if (list.get(mid) > k) {
-                //중앙값은 이미 검사했으니 중앙 이전 값을 종료 인덱스에 넣어준다 end=mid-1
                 end = mid - 1;
-                mid = (start + end) / 2;
-            }
-            //만약 찾는 값이 중앙 값보다 크다면 오른쪽 검색
-            else if (list.get(mid) <= k) {
-                //중앙값은 이미 검사했으니 중앙 다음 값을 시작인덱스에 넣어준다 str=mid+1
+            } else{
                 start = mid + 1;
-                mid = (start + end) / 2;
             }
         }
 
-        return mid;
+        return end;
     }
 }

@@ -20,36 +20,43 @@ public class Main {
 
         Arrays.sort(weights); // 이진탐색을 위해 정렬때립니다.
 
-        int maxIdx = binarySearch(weights, 0, N - 1, C); //이진탐색을 통해서 maxIdx 를 구해서 범위를 좁혀줍니다.
+        int maxIdx = binarySearch(weights, 0, N - 1, C, false); //이진탐색을 통해서 maxIdx 를 구해서 범위를 좁혀줍니다.
 
-        for (int i = 0; i <= maxIdx; i++) { // 처음부터 원하는 값보다 작은 값까지의 범위를 탐색
-            for (int j = i + 1; j <= maxIdx; j++) {
-                int sum = weights[i]+weights[j];
-                if(sum == C){
+        for (int i = 0, j = maxIdx; i < j; ) {
+            int sum = weights[i] + weights[j];
+
+            if (sum == C) {
+                System.out.println(1);
+                return;
+            } else if (sum > C)
+                j--;
+            else {
+                int idx = binarySearch(weights, i + 1, j - 1, C - sum, true);
+                if (idx > i && idx < j && C - sum == weights[idx]) {
                     System.out.println(1);
                     return;
                 }
-                if(j == maxIdx)
-                    continue;
-                int resIdx = binarySearch(weights, j+1, maxIdx, C-sum);
-                if(sum + weights[resIdx == maxIdx? maxIdx : resIdx+1] == C) {
-                    System.out.println(1);
-                    return;
-                }
+                i++;
             }
         }
+
         System.out.println(0);
     }
 
-    static int binarySearch(int[] w, int start, int end, int num) {
+    static int binarySearch(int[] w, int start, int end, int num, boolean check) {
         while (start <= end) {
             int mid = (start + end) / 2;
+
+            if (check && w[mid] == num)
+                return mid;
+
             if (w[mid] >= num) {
                 end = mid - 1;
             } else {
                 start = mid + 1;
             }
         }
+
         return end;
     }
 }

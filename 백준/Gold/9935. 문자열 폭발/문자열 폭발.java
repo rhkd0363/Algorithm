@@ -6,23 +6,23 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        char[] input = br.readLine().toCharArray();
-        String boomStr = br.readLine();
-        Stack<Character> stack = new Stack<>();
-        Stack<Character> tempStack;
-        for(int i=input.length-1;i>=0;i--){
+        char[] input = br.readLine().toCharArray(); //입력
+        String boomStr = br.readLine(); // 폭발문자열
+        Stack<Character> stack = new Stack<>(); // 메인스택 (값 쌓을거임)
+        Stack<Character> tempStack = new Stack<>();; // 폭탄문자열과 비교하기 위한 스택
+        loop : for(int i=input.length-1;i>=0;i--){
             stack.add(input[i]);
             if(input[i] == boomStr.charAt(0) && stack.size() >= boomStr.length()){
-                tempStack = new Stack<>();
                 for(int j=0;j<boomStr.length();j++){
                     if(stack.peek() == boomStr.charAt(j)){
                         tempStack.add(stack.pop());
                     }else{
                         while(!tempStack.isEmpty())
                             stack.add(tempStack.pop());
-                        break;
+                        continue loop;
                     }
                 }
+                tempStack.clear();
             }
         }
         StringBuilder sb = new StringBuilder();

@@ -8,12 +8,10 @@ public class Main {
     static class Node implements Comparable<Node>{
         int end;
         int cost;
-
         public Node(int end, int weight) {
             this.end = end;
             this.cost = weight;
         }
-
         @Override
         public int compareTo(Node o){
             return this.cost - o.cost;
@@ -38,19 +36,16 @@ public class Main {
         boolean[] visited = new boolean[N+1];
         int[] cost = new int[N+1];
         Arrays.fill(cost, Integer.MAX_VALUE);
-
         pq.add(new Node(1,0));
         cost[0] = 0;
         cost[1] = 0;
-
-        while(!pq.isEmpty()){
+        int count = 0;
+        while(!pq.isEmpty() || count < N){
             Node curr = pq.poll();
-
             if(visited[curr.end])
                 continue;
-
             visited[curr.end] = true;
-
+            count++;
             for(Node node : list[curr.end]){
                 if(!visited[node.end] && cost[node.end] > node.cost){
                     cost[node.end] = node.cost;
@@ -58,12 +53,10 @@ public class Main {
                 }
             }
         }
-
         long answer = 0;
         for(int c : cost){
             answer += c;
         }
-
         System.out.println(answer);
     }
 }

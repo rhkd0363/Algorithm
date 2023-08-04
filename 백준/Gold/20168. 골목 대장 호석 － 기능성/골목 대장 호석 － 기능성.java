@@ -38,9 +38,6 @@ public class Main {
         while (!pq.isEmpty()) {
             Node curr = pq.poll();
 
-            if(visited[curr.end])
-                continue;
-
             visited[curr.end] = true;
 
             for (Node node : list[curr.end]) {

@@ -22,8 +22,8 @@ public class Main{
         int N = Integer.parseInt(st.nextToken()), M = Integer.parseInt(st.nextToken());
         PriorityQueue<Node> pq= new PriorityQueue<>();
         boolean[] visited = new boolean[N+1];
-        long[] weights = new long[N+1];
-        Arrays.fill(weights, Long.MAX_VALUE);
+        int[] weights = new int[N+1];
+        Arrays.fill(weights, Integer.MAX_VALUE);
         List<Node>[] adjList = new ArrayList[N+1];
         for(int i=1;i<=N;i++)
             adjList[i] = new ArrayList<>();

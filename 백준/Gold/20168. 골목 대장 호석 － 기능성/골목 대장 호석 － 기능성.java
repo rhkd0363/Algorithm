@@ -42,8 +42,8 @@ public class Main {
 
             for (Node node : list[curr.end]) {
                 if (!visited[node.end] && node.cost + curr.cost <= C) {
-                    Node temp = new Node(node.end, node.cost + curr.cost, node.cost);
-                    temp.max = Math.max(temp.max, curr.max);
+                    if(costs[node.end] <= node.max && costs[node.end] <= curr.max) continue;
+                    Node temp = new Node(node.end, node.cost + curr.cost, Math.max(node.max, curr.max));
                     costs[node.end] = Math.min(costs[node.end], temp.max);
                     pq.add(temp);
                 }

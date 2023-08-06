@@ -7,10 +7,12 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         String input = br.readLine();
         long result = 0;
-        for(int i=0;i<N;i++){
-            result += (input.charAt(i) - 96) * (Math.pow(31,i) % 1234567891) % 1234567891;
-            result %= 1234567891;
+        long num = 1;
+        for (int i = 0; i < N; i++) {
+            result += ((input.charAt(i) - 96) * num) % 1234567891;
+            num = (num * 31) % 1234567891;
         }
+
         System.out.println(result);
     }
 }

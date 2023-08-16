@@ -6,9 +6,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int D = Integer.parseInt(st.nextToken());
-
-        long[][] result = divideConquer(D);
-
+        long[][] result = divideConquer(setMap(), D);
         System.out.println(result[0][0]);
 
     }
@@ -34,23 +32,18 @@ public class Main {
                 }
             }
         }
-
         return tempResult;
     }
 
-    static long[][] divideConquer(int count){
-        if(count == 1)
-            return setMap();
-
-        if(count % 2 == 0){
-            long[][] map = divideConquer(count/2);
+    static long[][] divideConquer(long[][] arr, int count) {
+        if (count == 1)
+            return arr;
+        if (count % 2 == 0) {
+            long[][] map = divideConquer(arr, count / 2);
             return cal(map, map);
-        }else{
-            long[][] mapA = divideConquer(count/2);
-            long[][] mapB = divideConquer(count/2+1);
-            return cal(mapA,mapB);
+        } else {
+            long[][] map = divideConquer(arr, count - 1);
+            return cal(arr, map);
         }
     }
 }
-
-

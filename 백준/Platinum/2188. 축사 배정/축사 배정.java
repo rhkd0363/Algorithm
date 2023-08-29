@@ -15,7 +15,7 @@ public class Main {
         }
 
         int[] barn = new int[M+1];
-        boolean[] check = new boolean[M+1];
+        boolean[][] check = new boolean[N+1][M+1];
 
         for(int i=1;i<=N;i++){
             st = new StringTokenizer(br.readLine());
@@ -27,23 +27,22 @@ public class Main {
 
         int cnt = 0;
         for(int i=1;i<=N;i++){
-            Arrays.fill(check,false);
-            if(DFS(check, adjList, barn, i))
+            if(DFS(check, adjList, barn, i, i))
                 cnt++;
         }
 
         System.out.println(cnt);
     }
 
-    static boolean DFS(boolean[] check,List<Integer>[] adjList,int[] barn, int number){
-        for(int i : adjList[number]){
-            if(check[i])
+    static boolean DFS(boolean[][] check,List<Integer>[] adjList,int[] barn, int number, int curr){
+        for(int i : adjList[curr]){
+            if(check[number][i])
                 continue;
 
-            check[i] = true;
+            check[number][i] = true;
 
-            if(barn[i] == 0 || DFS(check, adjList, barn, barn[i])){
-                barn[i] = number;
+            if(barn[i] == 0 || DFS(check, adjList, barn, number, barn[i])){
+                barn[i] = curr;
                 return true;
             }
         }

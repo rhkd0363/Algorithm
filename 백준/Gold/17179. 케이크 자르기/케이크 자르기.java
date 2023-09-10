@@ -1,47 +1,50 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int L = Integer.parseInt(st.nextToken());
 
-    public static int N;
-    public static int M;
-    public static int L;
-    public static void main(String args[]){
-        Scanner scan = new Scanner(System.in);
-        N = scan.nextInt();
-        M = scan.nextInt();
-        L = scan.nextInt();
+        int[] arr = new int[M];
 
-        int[] input = new int[M+2];
-        input[0] = 0;
-        for(int i=1;i<=M;i++) input[i] = scan.nextInt();
-        input[M+1] = L;
-
-        Arrays.sort(input);
-        for(int i=0;i<N;i++){
-            int cut = scan.nextInt();
-            System.out.println(solution(input, cut));
+        for(int i=0;i<M;i++){
+            arr[i] = Integer.parseInt(br.readLine());
         }
-    }
-    public static int solution(int[] input, int cut){
-        int left = 0; int right = L;
-        int answer = 0;
-        while(left<=right){
-            int mid = (left+right)/2;
-            int prev = input[0];
-            int numOfCut = 0;
-            for(int i=1;i<=M+1;i++){
-                if(input[i]-prev>=mid){
-                    numOfCut++;
-                    prev = input[i];
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<N;i++){
+            int cut = Integer.parseInt(br.readLine());
+            int res = 0;
+            int start = 0;
+            int end = L;
+            while(start<=end){
+                int mid = (start+end) / 2;
+                int prev = 0;
+                int count = 0;
+                for(int j=0;j<M;j++){
+                    if(arr[j] - prev >= mid){
+                        prev = arr[j];
+                        count++;
+                    }
+                }
+
+                if(L - prev < mid){
+                    count--;
+                }
+
+                if(count >= cut){
+                    res = Math.max(res, mid);
+                    start = mid + 1;
+                }else{
+                    end = mid - 1;
                 }
             }
-            if(numOfCut>cut){
-                left = mid+1;
-                answer = Math.max(answer, mid);
-            }
-            else right = mid-1;
+            sb.append(res).append('\n');
         }
-        return answer;
+        System.out.println(sb);
     }
 }

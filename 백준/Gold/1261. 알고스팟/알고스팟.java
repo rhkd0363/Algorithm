@@ -2,12 +2,17 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Info{
+    static class Info implements Comparable<Info>{
         int x,y,count;
         public Info(int x, int y, int count) {
             this.x = x;
             this.y = y;
             this.count = count;
+        }
+
+        @Override
+        public int compareTo(Info o){
+            return this.count - o.count;
         }
     }
     public static void main(String[] args) throws IOException {
@@ -25,37 +30,32 @@ public class Main {
             }
         }
 
-        int[][] visited = new int[N][M];
-        for(int i=0;i<N;i++)
-            Arrays.fill(visited[i],987654321);
+        boolean[][] visited = new boolean[N][M];
 
-        Queue<Info> queue = new LinkedList<>();
+        Queue<Info> queue = new PriorityQueue<>();
         queue.add(new Info(0,0,0));
-
+        visited[0][0] = true;
+        int answer = 0;
         int[][] dxdy =  {{-1,0},{1,0},{0,-1},{0,1}};
         while (!queue.isEmpty()){
             Info curr = queue.poll();
+
+            if(curr.x == N-1 && curr.y == M-1){
+                answer = curr.count;
+                break;
+            }
 
             for(int i=0;i<4;i++){
                 int nx = curr.x + dxdy[i][0];
                 int ny = curr.y + dxdy[i][1];
 
-                if(nx < 0 || ny < 0 || nx >=N || ny >=M)
+                if(nx < 0 || ny < 0 || nx >=N || ny >=M || visited[nx][ny])
                     continue;
 
-                Info next = new Info(nx,ny, map[nx][ny] == 1 ? curr.count+1 : curr.count);
-
-                if(visited[nx][ny] <= next.count)
-                    continue;
-
-                visited[nx][ny] = next.count;
-                queue.add(next);
+                visited[nx][ny] = true;
+                queue.add(new Info(nx,ny, map[nx][ny] == 1 ? curr.count+1 : curr.count));
             }
         }
-
-        if(N == 1 && M == 1)
-            System.out.println(0);
-        else
-            System.out.println(visited[N-1][M-1]);
+        System.out.println(answer);
     }
 }

@@ -2,39 +2,30 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static long[] bit;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        long A = Long.parseLong(st.nextToken());
+        long B = Long.parseLong(st.nextToken());
+        long[] count = new long[Long.toString(B,2).length()+1];
+        count[0] = 1;
+        for(int i=1;i<count.length;i++)
+            count[i] = count[i - 1] * 2 + (1L <<i);
 
-        long a = Long.parseLong(st.nextToken());
-        long b = Long.parseLong(st.nextToken());
-        initBitCount();
+        long answer = getAnswer(B, count) - getAnswer(A - 1, count);
 
-        long ans = getBitCount(b) - getBitCount(a - 1);
-        bw.write(String.valueOf(ans));
-        br.close();
-        bw.close();
+        System.out.println(answer);
     }
 
-    static long getBitCount(long x) {
+    private static long getAnswer(long x, long[] count) {
         long ans = x & 1;
 
         for (int i = 54; i > 0; i--) {
             if ((x & (1L << i)) > 0L) {
-                ans += bit[i - 1] + (x - (1L << i) + 1);
+                ans += count[i - 1] + (x - (1L << i) + 1);
                 x -= (1L << i);
             }
         }
         return ans;
-    }
-
-    static void initBitCount() {
-        bit = new long[55];
-        bit[0] = 1;
-        for (int i = 1; i < 55; i++) {
-            bit[i] = 2 * bit[i - 1] + (1L << i);
-        }
     }
 }

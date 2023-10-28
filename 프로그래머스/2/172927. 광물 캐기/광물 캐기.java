@@ -41,6 +41,9 @@ class Solution {
     }
     
     public void getComb(int[] picks, int[][] arr, int index, int pickCnt, int fatigue){
+        if(answer < fatigue)
+            return;
+            
         if(pickCnt == 0 || index == arr.length){
             answer = Math.min(answer, fatigue);
             return;

@@ -1,10 +1,12 @@
 def solution(s):
     answer = []
-    checked = [-1 for i in range(0,26)]
+    dict = {}
     
-    for idx, c in enumerate(s) :
-        num = ord(c) - 97
-        answer.append(checked[num] if checked[num] == -1 else idx - checked[num])
-        checked[num] = idx
+    for i, c in enumerate(s) :
+        if c in dict:
+            answer.append(i - dict[c])
+        else:
+            answer.append(-1)
+        dict[c] = i
     
     return answer

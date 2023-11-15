@@ -1,7 +1,7 @@
 function solution(a, b) {
-    let answer = 0
-    for(let idx = 0; idx < a.length; idx++){
-        answer += a[idx] * b[idx]
-    }
+    let answer = a.reduce((sum, num, idx)=>{
+        return sum += num * b[idx]
+    }, 0)
+    
     return answer;
 }

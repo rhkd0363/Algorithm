@@ -1,6 +1,6 @@
 class Solution {
-    public long solution(int price, int money, int count) {
-        long answer = (price * ((long)count * (count+1)) / 2) - money;
-        return answer < 0 ? 0 : answer;
+    public long solution(long price, int money, int count) {
+        long answer = price * count * (count+1) / 2 - money;
+        return answer > 0 ? answer : 0;
     }
 }
